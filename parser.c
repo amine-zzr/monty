@@ -10,20 +10,26 @@
 void parser(char *line, unsigned int line_number)
 {
 	char opcode[256];
-	char *arg_str;
+	char *tmp_ptr;
 	int arg;
 
 	if (sscanf(line, "%255s", opcode) == 1)
 	{
 		if (strcmp(opcode, "push") == 0)
 		{
-			arg_str = line + strlen("push");
-			while (*arg_str == ' ')
-				arg_str++;
-			if (*arg_str != '\0')
+			if (sscanf(line + strlen("push"), "%d", &arg) == 1)
 			{
-				arg = atoi(arg_str);
-				push(&stack, arg);
+				tmp_ptr = line + strlen("push");
+				while (*tmp_ptr && (*tmp_ptr == ' ' || *tmp_ptr == '\t'))
+					tmp_ptr++;
+
+				if (isdigit(*tmp_ptr) || (*tmp_ptr == '-' && isdigit(*(tmp_ptr + 1))))
+					push(&stack, arg);
+				else
+				{
+					fprintf(stderr, "L%u, usage: push integer\n", line_number);
+					exit(EXIT_FAILURE);
+				}
 			}
 			else
 			{
@@ -31,10 +37,14 @@ void parser(char *line, unsigned int line_number)
 				exit(EXIT_FAILURE);
 			}
 		}
+
 		else if (strcmp(opcode, "pall") == 0)
 			pall(&stack);
 		else
 		{
+			while (*line && (*line != '\n' && *line != ' ' && *line != '\t'))
+				line++;
+
 			fprintf(stderr, "L%u: unknown instruction %s\n", line_number, opcode);
 			exit(EXIT_FAILURE);
 		}
