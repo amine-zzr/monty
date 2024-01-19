@@ -42,6 +42,15 @@ void parser(char *line, unsigned int line_number)
 	}
 	else if (strcmp(opcode, "pall") == 0)
 		pall(&stack);
+	else if (strcmp(opcode, "pint") == 0)
+	{
+		if (stack == NULL)
+		{
+			fprintf(stderr, "L%u: can't pint, stack empty\n", line_number);
+			exit(EXIT_FAILURE);
+		}
+		printf("%d\n", stack->n);
+	}
 	else
 	{
 		fprintf(stderr, "L%u: unknown instruction %s\n", line_number, opcode);
