@@ -77,3 +77,16 @@ void add(unsigned int line_number)
 	stack->next->n += stack->n;
 	pop(line_number);
 }
+
+
+Copy code
+/**
+ * nop - Handles the nop opcode in Monty language
+ *
+ * This function does not perform any action, as the nop opcode
+ * is designed to do nothing.
+ */
+
+void nop(void)
+{
+}
