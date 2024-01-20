@@ -11,7 +11,6 @@ void parser(char *line, unsigned int line_number)
 {
 	char *token;
 	char opcode[256];
-	int arg, i;
 
 	token = strtok(line, " \t\n");
 	if (token == NULL)
@@ -27,30 +26,15 @@ void parser(char *line, unsigned int line_number)
 			fprintf(stderr, "L%u: usage: push integer\n", line_number);
 			exit(EXIT_FAILURE);
 		}
-		for (i = 0; token[i] != '\0'; i++)
-		{
-			if (!isdigit(token[i]) && !(i == 0 && token[i] == '-'))
-			{
-				fprintf(stderr, "L%u: usage: push integer\n", line_number);
-				exit(EXIT_FAILURE);
-			}
-		}
 
-		arg = atoi(token);
-		push(&stack, arg);
-
+		push(token, line_number);
 	}
 	else if (strcmp(opcode, "pall") == 0)
-		pall(&stack);
+		pall();
 	else if (strcmp(opcode, "pint") == 0)
-	{
-		if (stack == NULL)
-		{
-			fprintf(stderr, "L%u: can't pint, stack empty\n", line_number);
-			exit(EXIT_FAILURE);
-		}
-		printf("%d\n", stack->n);
-	}
+		pint(line_number);
+	else if (strcmp(opcode, "pop") == 0)
+		pop(line_number);
 	else
 	{
 		fprintf(stderr, "L%u: unknown instruction %s\n", line_number, opcode);
