@@ -49,6 +49,7 @@ void free_stack(void);
 void pop(unsigned int line_number);
 void pint(unsigned int line_number);
 void swap(unsigned int line_number);
+void add(unsigned int line_number);
 
 
 #endif /* MONTY_H */
