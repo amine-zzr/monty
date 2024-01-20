@@ -58,3 +58,22 @@ void swap(unsigned int line_number)
 	stack->n = stack->next->n;
 	stack->next->n = temp;
 }
+
+/**
+ * add - adds the top two elements, updates the second top element with
+ * the result, and then removes the top element using the pop function.
+ * @line_number: The line number in the Monty bytecode file
+ *
+ */
+
+void add(unsigned int line_number)
+{
+	if (stack == NULL || stack->next == NULL)
+	{
+		fprintf(stderr, "L%u: can't add, stack too short\n", line_number);
+		exit(EXIT_FAILURE);
+	}
+
+	stack->next->n += stack->n;
+	pop(line_number);
+}
