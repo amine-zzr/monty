@@ -1,15 +1,27 @@
 #include "monty.h"
 
 /**
- * push - Pushes an element onto the stack
- * @stack: A pointer to the top of the stack
- * @value: The value to push onto the stack
+ * push - Handles the push opcode in Monty language
+ * @token: The argument token associated with the push opcode
+ * @line_number: The line number in the Monty bytecode file
  *
  */
 
-void push(stack_t **stack, int value)
+void push(char *token, unsigned int line_number)
 {
-	stack_t *new_node = malloc(sizeof(stack_t));
+	int i;
+	stack_t *new_node;
+
+	for (i = 0; token[i] != '\0'; i++)
+	{
+		if (!isdigit(token[i]) && !(i == 0 && token[i] == '-'))
+		{
+			fprintf(stderr, "L%u: usage: push integer\n", line_number);
+			exit(EXIT_FAILURE);
+		}
+	}
+
+	new_node = malloc(sizeof(stack_t));
 
 	if (new_node == NULL)
 	{
@@ -17,26 +29,29 @@ void push(stack_t **stack, int value)
 		exit(EXIT_FAILURE);
 	}
 
-	new_node->n = value;
+	new_node->n = atoi(token);
 	new_node->prev = NULL;
-	new_node->next = *stack;
+	new_node->next = stack;
 
-	if (*stack)
-		(*stack)->prev = new_node;
+	if (stack)
+		stack->prev = new_node;
 
-	*stack = new_node;
+	stack = new_node;
 }
 
 /**
  * pall - Prints all the values on the stack
- * @stack: A pointer to the top of the stack
  *
  */
 
-void pall(stack_t **stack)
+void pall(void)
 {
-	stack_t *current = *stack;
+	stack_t *current;
 
+	if (stack == NULL)
+		return;
+
+	current = stack;
 	while (current)
 	{
 		printf("%d\n", current->n);
