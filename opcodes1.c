@@ -78,8 +78,6 @@ void add(unsigned int line_number)
 	pop(line_number);
 }
 
-
-Copy code
 /**
  * nop - Handles the nop opcode in Monty language
  *
