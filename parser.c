@@ -39,6 +39,8 @@ void parser(char *line, unsigned int line_number)
 		swap(line_number);
 	else if (strcmp(opcode, "add") == 0)
 		add(line_number);
+	else if (strcmp(opcode, "nop") == 0)
+		nop();
 	else
 	{
 		fprintf(stderr, "L%u: unknown instruction %s\n", line_number, opcode);
