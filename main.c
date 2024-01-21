@@ -19,7 +19,7 @@ int main(int argc, char **argv)
 	instruction_t instructions[] = {
 		{"push", push}, {"pall", pall}, {"nop", nop}, {"add", add}, {"swap", swap},
 		{"pop", pop}, {"pint", pint}, {"sub", sub}, {"div", div_op}, {"mul", mul},
-		{"mod", mod}, {"pchar", pchar}, {"pstr", pstr}, {NULL, NULL}
+		{"mod", mod}, {"pchar", pchar}, {"pstr", pstr}, {"rotl", rotl}, {NULL, NULL}
 	};
 
 	if (argc != 2)
