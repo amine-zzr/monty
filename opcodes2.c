@@ -4,6 +4,7 @@
  * sub - Subtracts the top element of the stack from the second top element.
  * @stack: The pointer to the stack.
  * @line_number: The line number in the Monty bytecode file.
+ *
  */
 
 void sub(stack_t **stack, unsigned int line_number)
