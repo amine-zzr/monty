@@ -12,9 +12,9 @@ void push(stack_t **stack, unsigned int line_number)
 	int i;
 	stack_t *new_node;
 
-	for (i = 0; arg[i] != '\0'; i++)
+	for (i = 0; monty.arg[i] != '\0'; i++)
 	{
-		if (!isdigit(arg[i]) && !(i == 0 && arg[i] == '-'))
+		if (!isdigit(monty.arg[i]) && !(i == 0 && monty.arg[i] == '-'))
 		{
 			fprintf(stderr, "L%u: usage: push integer\n", line_number);
 			exit(EXIT_FAILURE);
@@ -29,7 +29,7 @@ void push(stack_t **stack, unsigned int line_number)
 		exit(EXIT_FAILURE);
 	}
 
-	new_node->n = atoi(arg);
+	new_node->n = atoi(monty.arg);
 	new_node->prev = NULL;
 	new_node->next = *stack;
 

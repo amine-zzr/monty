@@ -1,6 +1,6 @@
 #include "monty.h"
 
-char *arg;
+monty_data_t monty = {NULL, 0};
 
 /**
  * parser - Parses a line and executes the corresponding opcode function.
@@ -27,8 +27,8 @@ void parser(char *line, instruction_t *instructions,
 		{
 			if (strcmp(opcode, "push") == 0)
 			{
-				arg = strtok(NULL, " \t\n");
-				if (arg == NULL)
+				monty.arg = strtok(NULL, " \t\n");
+				if (monty.arg == NULL)
 				{
 					fprintf(stderr, "L%u: usage: push integer\n", line_number);
 					exit(EXIT_FAILURE);

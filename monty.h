@@ -38,8 +38,19 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+/**
+ * struct monty_data_s - Holds global variables for Monty interpreter
+ * @arg: The argument extracted from the line
+ * @mode: The mode (stack or queue)
+ */
+typedef struct monty_data_s
+{
+	char *arg;
+	int mode;
+} monty_data_t;
 
-extern char *arg;
+
+extern monty_data_t monty;
 
 
 void parser(char *line, instruction_t *instructions,
@@ -60,5 +71,7 @@ void pchar(stack_t **stack, unsigned int line_number);
 void pstr(stack_t **stack, unsigned int line_number);
 void rotl(stack_t **stack, unsigned int line_number);
 void rotr(stack_t **stack, unsigned int line_number);
+void queue_op(stack_t **stack, unsigned int line_number);
+void stack_op(stack_t **stack, unsigned int line_number);
 
 #endif /* MONTY_H */
