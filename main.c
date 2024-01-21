@@ -1,7 +1,5 @@
 #include "monty.h"
 
-stack_t *stack = NULL;
-
 /**
  * main - Entry point of the Monty bytecode interpreter
  * @argc: The number of command-line arguments
@@ -16,30 +14,32 @@ int main(int argc, char **argv)
 	char *line = NULL;
 	size_t len = 0;
 	ssize_t read;
-	unsigned int line_number = 0;
+	stack_t *stack = NULL;
+	unsigned int line_number = 1;
+	instruction_t instructions[] = {
+		{"push", push}, {"pall", pall}, {"nop", nop}, {"add", add}, {"swap", swap},
+		{"pop", pop}, {"pint", pint}, {NULL, NULL}
+	};
 
 	if (argc != 2)
 	{
 		fprintf(stderr, "USAGE: monty file\n");
 		exit(EXIT_FAILURE);
 	}
-
 	file = fopen(argv[1], "r");
 	if (!file)
 	{
 		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
-
 	while ((read = getline(&line, &len, file)) != -1)
 	{
+		if (line[read - 1] == '\n')
+			line[read - 1] = '\0';
+		parser(line, instructions, &stack, line_number);
 		line_number++;
-		if (read == 1)
-			continue;
-		parser(line, line_number);
 	}
-
-	free_stack();
+	free_stack(&stack);
 	free(line);
 	fclose(file);
 

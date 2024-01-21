@@ -2,19 +2,19 @@
 
 /**
  * push - Handles the push opcode in Monty language
- * @token: The argument token associated with the push opcode
+ * @stack: The pointer to the stack.
  * @line_number: The line number in the Monty bytecode file
  *
  */
 
-void push(char *token, unsigned int line_number)
+void push(stack_t **stack, unsigned int line_number)
 {
 	int i;
 	stack_t *new_node;
 
-	for (i = 0; token[i] != '\0'; i++)
+	for (i = 0; arg[i] != '\0'; i++)
 	{
-		if (!isdigit(token[i]) && !(i == 0 && token[i] == '-'))
+		if (!isdigit(arg[i]) && !(i == 0 && arg[i] == '-'))
 		{
 			fprintf(stderr, "L%u: usage: push integer\n", line_number);
 			exit(EXIT_FAILURE);
@@ -29,29 +29,31 @@ void push(char *token, unsigned int line_number)
 		exit(EXIT_FAILURE);
 	}
 
-	new_node->n = atoi(token);
+	new_node->n = atoi(arg);
 	new_node->prev = NULL;
-	new_node->next = stack;
+	new_node->next = *stack;
 
-	if (stack)
-		stack->prev = new_node;
+	if (*stack)
+		(*stack)->prev = new_node;
 
-	stack = new_node;
+	*stack = new_node;
 }
 
 /**
- * pall - Prints all the values on the stack
- *
+ * pall - Prints all the values on the stack.
+ * @stack: The pointer to the stack.
+ * @line_number: The line number in the Monty byte code file.
  */
-
-void pall(void)
+void pall(stack_t **stack, unsigned int line_number)
 {
 	stack_t *current;
 
-	if (stack == NULL)
+	(void)line_number;
+
+	if (*stack == NULL)
 		return;
 
-	current = stack;
+	current = *stack;
 	while (current)
 	{
 		printf("%d\n", current->n);
@@ -61,17 +63,24 @@ void pall(void)
 
 /**
  * free_stack - Frees the memory allocated for the stack nodes
+ * @stack: The pointer to the stack.
  *
  */
 
-void free_stack(void)
+void free_stack(stack_t **stack)
 {
-	stack_t *temp;
+	stack_t *current, *next;
 
-	while (stack)
+	if (stack == NULL || *stack == NULL)
+		return;
+
+	current = *stack;
+	while (current)
 	{
-		temp = stack;
-		stack = stack->next;
-		free(temp);
+		next = current->next;
+		free(current);
+		current = next;
 	}
+
+	*stack = NULL;
 }
