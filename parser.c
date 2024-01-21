@@ -18,7 +18,7 @@ void parser(char *line, instruction_t *instructions,
 
 	opcode = strtok(line, " \t\n");
 
-	if (opcode == NULL)
+	if (opcode == NULL || opcode[0] == '#')
 		return;
 
 	while (instructions[i].opcode != NULL)
