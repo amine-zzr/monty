@@ -37,7 +37,6 @@ void queue_op(stack_t **stack, unsigned int line_number)
 
 void add_node(stack_t **stack, stack_t *new_node)
 {
-	stack_t *current;
 
 	if (monty.mode == 1) /* LIFO */
 	{
@@ -52,11 +51,15 @@ void add_node(stack_t **stack, stack_t *new_node)
 			*stack = new_node;
 		else
 		{
-			current = *stack;
-			while (current->next)
-				current = current->next;
-			current->next = new_node;
-			new_node->prev = current;
+			if (!monty.tail)
+			{
+				monty.tail = *stack;
+			while (monty.tail->next)
+				monty.tail = monty.tail->next;
+			}
+			monty.tail->next = new_node;
+			new_node->prev = monty.tail;
+			monty.tail = new_node;
 		}
 	}
 }

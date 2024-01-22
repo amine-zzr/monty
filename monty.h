@@ -41,11 +41,13 @@ typedef struct instruction_s
 /**
  * struct monty_data_s - Holds global variables for Monty interpreter
  * @arg: The argument extracted from the line
+ * @tail: A variable to keep track of the last node in the list
  * @mode: The mode (stack or queue)
  */
 typedef struct monty_data_s
 {
 	char *arg;
+	stack_t *tail;
 	int mode;
 } monty_data_t;
 
