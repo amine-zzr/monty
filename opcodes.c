@@ -10,7 +10,7 @@
 void push(stack_t **stack, unsigned int line_number)
 {
 	int i;
-	stack_t *new_node;
+	stack_t *current, *new_node;
 
 	for (i = 0; monty.arg[i] != '\0'; i++)
 	{
@@ -20,23 +20,35 @@ void push(stack_t **stack, unsigned int line_number)
 			exit(EXIT_FAILURE);
 		}
 	}
-
 	new_node = malloc(sizeof(stack_t));
-
 	if (new_node == NULL)
 	{
 		fprintf(stderr, "Error: malloc failed\n");
 		exit(EXIT_FAILURE);
 	}
-
 	new_node->n = atoi(monty.arg);
 	new_node->prev = NULL;
-	new_node->next = *stack;
-
-	if (*stack)
-		(*stack)->prev = new_node;
-
-	*stack = new_node;
+	new_node->next = NULL;
+	if (monty.mode == 1) /* LIFO */
+	{
+		new_node->next = *stack;
+		if (*stack)
+			(*stack)->prev = new_node;
+		*stack = new_node;
+	}
+	else /* FIFO */
+	{
+		if (!*stack)
+			*stack = new_node;
+		else
+		{
+			current = *stack;
+			while (current->next)
+				current = current->next;
+			current->next = new_node;
+			new_node->prev = current;
+		}
+	}
 }
 
 /**

@@ -1,6 +1,6 @@
 #include "monty.h"
 
-monty_data_t monty = {NULL, 0};
+monty_data_t monty = {NULL, 1};
 
 /**
  * parser - Parses a line and executes the corresponding opcode function.
