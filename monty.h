@@ -73,5 +73,6 @@ void rotl(stack_t **stack, unsigned int line_number);
 void rotr(stack_t **stack, unsigned int line_number);
 void queue_op(stack_t **stack, unsigned int line_number);
 void stack_op(stack_t **stack, unsigned int line_number);
+void add_node(stack_t **stack, stack_t *new_node);
 
 #endif /* MONTY_H */
